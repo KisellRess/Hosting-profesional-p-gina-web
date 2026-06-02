@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # ANEXO: Código Fuente Comentado de la Suite PHP de la Página Principal
+=======
+# ANEXO 15: Código Fuente Comentado de la Suite PHP de la Página Principal
+>>>>>>> 21f7ef04212b86e5428f0ca03a06718f199ad2fa
 
 Esta sección documenta de forma exhaustiva la arquitectura y lógica de backend en PHP de todos los ficheros que integran la página principal y el panel de control de **VinoMadrid Hosting**. Se detallan a continuación los bloques de código más críticos, su función, y sus respectivos comentarios técnicos de diseño, seguridad, interacción con el Kernel de Linux y consistencia relacional.
 
@@ -13,8 +17,13 @@ A continuación, se documenta la función real del archivo:
 ```php
 function getConexion(): mysqli {
     $host = "localhost";
+<<<<<<< HEAD
     $user = "usuario";
     $pass = "contraseña";
+=======
+    $user = "ubuntu";
+    $pass = "ubuntu123";
+>>>>>>> 21f7ef04212b86e5428f0ca03a06718f199ad2fa
     $db   = "vinomadrid_db";
     $conexion = new mysqli($host, $user, $pass, $db);
     if ($conexion->connect_error) {
