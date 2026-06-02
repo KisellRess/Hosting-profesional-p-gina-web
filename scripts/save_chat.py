@@ -1,69 +1,60 @@
-import mysql.connector
-import logging
-import os
 import sys
 import datetime
+import json
+from tfg_lib import DB, Logger, lock
 
-# --- CONFIGURACIÓN DB ---
-DB_CONFIG = {
-    "host": "localhost",
-    "user": "ubuntu",
-    "password": "ubuntu123",
-    "database": "vinomadrid_db"
-}
-
-# --- CONFIGURACIÓN DE RUTAS Y LOGS ---
-LOG_DIR = "/opt/tfg/scripts/logs"
-try:
-    os.makedirs(LOG_DIR, exist_ok=True)
-    os.chmod(LOG_DIR, 0o777)
-except: pass
-
-logger = logging.getLogger("ChatSystem")
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('[%(asctime)s] %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-
-# Master (.log) y Diario (.txt)
-for h_file in [os.path.join(LOG_DIR, "chat_system_master.log"),
-              os.path.join(LOG_DIR, "chat_system.txt")]:
-    handler = logging.FileHandler(h_file, encoding='utf-8', delay=False)
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+logger = Logger.get_logger("ChatSystem", "chat_system")
 
 def save_chat_to_db(username, role, message):
-    conexion = None
-    exitos = 0
-    errores = 0
     try:
-        conexion = mysql.connector.connect(**DB_CONFIG)
-        cursor = conexion.cursor(dictionary=True)
+        with DB() as (conexion, cursor):
+            cursor.execute("SELECT id FROM usuarios WHERE nombre = %s OR ftp_user = %s", (username, username))
+            user_data = cursor.fetchone()
 
-        cursor.execute("SELECT id FROM usuarios WHERE nombre = %s OR ftp_user = %s", (username, username))
-        user_data = cursor.fetchone()
+            if not user_data:
+                logger.error(f"No se encontró el usuario '{username}'")
+                return 0, 1
 
-        if not user_data:
-            logger.error(f"No se encontró el usuario '{username}'")
-            return 0, 1
-
-        user_id = user_data['id']
-        query = "INSERT INTO chats (user_id, role, mensaje) VALUES (%s, %s, %s)"
-        cursor.execute(query, (user_id, role, message))
-        conexion.commit()
-        logger.info(f"✓ Chat guardado: {username} ({role})")
-        return 1, 0
+            user_id = user_data['id']
+            query = "INSERT INTO chats (user_id, role, mensaje) VALUES (%s, %s, %s)"
+            cursor.execute(query, (user_id, role, message))
+            logger.info(f"✓ Chat guardado: {username} ({role})")
+            return 1, 0
     except Exception as e:
         logger.error(f"Error guardando chat: {e}")
         return 0, 1
-    finally:
-        if 'conexion' in locals() and conexion.is_connected():
-            cursor.close()
-            conexion.close()
-            logger.debug("Conexión cerrada correctamente.")
 
-if __name__ == "__main__":
+@lock("save_chat")
+def procesar_chat():
     exitos = 0
     errores = 0
-    if len(sys.argv) >= 4:
+    
+    # 1. Intentamos leer en formato JSON si se pasa como 3 argumentos (sys.argv[2] es el JSON)
+    if len(sys.argv) == 3:
+        try:
+            user = sys.argv[1]
+            data = json.loads(sys.argv[2])
+            role = data.get("emisor", "usuario")
+            
+            # Si hay cuestionario, lo formateamos de forma legible
+            if "cuestionario" in data:
+                cuest = data["cuestionario"]
+                msg = (
+                    "Cuestionario Inicial Completado:\n"
+                    f"- Showcase: {cuest.get('showcase', '')}\n"
+                    f"- Colores: {cuest.get('colores', '')}\n"
+                    f"- Fuentes: {cuest.get('fuentes', '')}"
+                )
+            else:
+                msg = data.get("mensaje", "")
+                
+            exitos, errores = save_chat_to_db(user, role, msg)
+        except Exception as e_json:
+            logger.error(f"Error parseando JSON de chat: {e_json}")
+            errores += 1
+            
+    # 2. Formato alternativo compatible con argumentos tradicionales (3 o más argumentos en la shell)
+    elif len(sys.argv) >= 4:
         user = sys.argv[1]
         role = sys.argv[2]
         msg = " ".join(sys.argv[3:])
@@ -73,3 +64,6 @@ if __name__ == "__main__":
     minuto = datetime.datetime.now().minute
     if (exitos + errores > 0) or (minuto in [0, 30]):
         logger.info(f"Resumen Chat: {exitos} mensajes guardados, {errores} fallos.")
+
+if __name__ == "__main__":
+    procesar_chat()
