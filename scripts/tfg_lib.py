@@ -14,13 +14,13 @@ class DB:
     DB_CONFIG = {
         "host": "localhost",
         "user": "ubuntu",
-        "password": "ubuntu123",
+        "password": "contraseña",
         "database": "vinomadrid_db"
     }
     ADMIN_CONFIG = {
         "host": "localhost",
         "user": "ubuntu",
-        "password": "ubuntu123"
+        "password": "contraseña"
     }
 
     def __init__(self, admin=False):

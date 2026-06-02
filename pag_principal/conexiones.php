@@ -7,8 +7,8 @@
 
 function getConexion(): mysqli {
     $host = "localhost";
-    $user = "ubuntu";
-    $pass = "ubuntu123";
+    $user = "usuario";
+    $pass = "contraseña";
     $db   = "vinomadrid_db";
     $conexion = new mysqli($host, $user, $pass, $db);
     if ($conexion->connect_error) {
