@@ -1,0 +1,647 @@
+/* ============================================================
+   ARCHIVO: responsive.css
+   FUNCION: reservar los ajustes responsive de la web.
+   METODO: Desktop-First; se parte del diseno de escritorio
+   y se ajusta progresivamente en pantallas mas pequenas.
+   ============================================================ */
+
+/* ============================================================
+   CONTENEDORES SEGUROS: escritorio y movil
+   Las tablas se desplazan dentro de su caja sin ampliar la pagina.
+   ============================================================ */
+.responsive-table-scroll {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+body.page-admin-panel .admin-shell,
+body.page-admin-panel .table-container,
+body.page-usuarios .users-shell,
+body.page-usuarios .users-table-panel {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+body.page-admin-panel .admin-alerts-scroll table,
+body.page-usuarios .users-list-scroll table,
+body.page-usuarios .users-invoices-scroll table {
+  width: 100%;
+}
+
+body.page-usuarios .glass-panel,
+body.page-usuarios .cred-val {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   ESTRUCTURA BASE: paneles administrativos en escritorio
+   Mantiene la composicion aunque una utilidad externa no cargue.
+   ============================================================ */
+body.page-admin-panel,
+body.page-usuarios {
+  box-sizing: border-box;
+  padding: 2.5rem;
+}
+
+body.page-admin-panel .admin-shell,
+body.page-usuarios .users-shell {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+body.page-admin-panel .admin-header,
+body.page-admin-panel .admin-header-actions,
+body.page-admin-panel .admin-action-nav,
+body.page-admin-panel .admin-view-tabs,
+body.page-admin-panel .massive-actions-bar,
+body.page-usuarios .users-detail-header,
+body.page-usuarios .users-finance-header,
+body.page-usuarios .users-list-header,
+body.page-usuarios .users-header-actions,
+body.page-usuarios .users-list-controls {
+  display: flex;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+body.page-admin-panel .admin-header,
+body.page-usuarios .users-detail-header,
+body.page-usuarios .users-finance-header,
+body.page-usuarios .users-list-header {
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+body.page-admin-panel .admin-header-actions {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+body.page-admin-panel .admin-action-nav,
+body.page-admin-panel .admin-view-tabs,
+body.page-admin-panel .massive-actions-bar,
+body.page-usuarios .users-header-actions,
+body.page-usuarios .users-list-controls {
+  gap: 1rem;
+}
+
+body.page-admin-panel .massive-actions-bar {
+  align-items: center;
+}
+
+body.page-admin-panel table,
+body.page-usuarios table {
+  border-collapse: collapse;
+}
+
+/* ============================================================
+   TABLAS USUARIOS: resoluciones intermedias
+   Evita cortes visuales antes de pasar al formato tarjeta movil.
+   ============================================================ */
+body.page-usuarios .users-list-scroll,
+body.page-usuarios .users-invoices-scroll {
+  overflow-x: auto;
+}
+
+body.page-usuarios .users-list-scroll table,
+body.page-usuarios .users-invoices-scroll table {
+  table-layout: auto;
+}
+
+body.page-usuarios .users-list-scroll th,
+body.page-usuarios .users-list-scroll td,
+body.page-usuarios .users-invoices-scroll th,
+body.page-usuarios .users-invoices-scroll td {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+body.page-usuarios .users-list-scroll .role-badge,
+body.page-usuarios .users-list-scroll .storage-current,
+body.page-usuarios .users-list-scroll .participation-button,
+body.page-usuarios .users-list-scroll .impersonate-button,
+body.page-usuarios .users-invoices-scroll .invoice-status,
+body.page-usuarios .users-invoices-scroll .invoice-download {
+  white-space: normal;
+}
+
+@media (min-width: 769px) and (max-width: 1180px) {
+  body.page-usuarios .users-list-scroll table {
+    min-width: 980px;
+  }
+
+  body.page-usuarios .users-invoices-scroll table {
+    min-width: 900px;
+  }
+
+  body.page-usuarios .users-list-scroll th,
+  body.page-usuarios .users-list-scroll td,
+  body.page-usuarios .users-invoices-scroll th,
+  body.page-usuarios .users-invoices-scroll td {
+    padding: 0.85rem !important;
+  }
+
+  body.page-usuarios .users-list-scroll .btn-premium,
+  body.page-usuarios .users-list-scroll .impersonate-button {
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+}
+
+/* ============================================================
+   ESCRITORIO REDUCIDO: pantallas de hasta 1200px
+   ============================================================ */
+@media (max-width: 1200px) {
+  /* --- ESTILOS GENERALES / GLOBALES --- */
+
+  /* --- ESTILOS INDIVIDUALES POR PHP / PAGINAS --- */
+  /* index.php */
+
+  /* inicio.php */
+}
+
+/* ============================================================
+   TABLETS HORIZONTAL: pantallas de hasta 1024px
+   ============================================================ */
+@media (max-width: 1024px) {
+  /* --- ESTILOS GENERALES / GLOBALES --- */
+
+  /* --- ESTILOS INDIVIDUALES POR PHP / PAGINAS --- */
+  /* index.php */
+
+  /* inicio.php */
+
+  /* admin_panel.php y usuarios.php */
+  body.page-admin-panel,
+  body.page-usuarios {
+    padding: 1.5rem !important;
+  }
+
+}
+
+/* ============================================================
+   AJUSTE GENERAL HEREDADO: pantallas de hasta 900px
+   Mantiene el punto de corte que anteriormente estaba en estilos.css.
+   ============================================================ */
+@media (max-width: 900px) {
+  /* --- ESTILOS GENERALES / GLOBALES --- */
+  section {
+    padding: 5rem 1.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* --- ESTILOS INDIVIDUALES POR PHP / PAGINAS --- */
+}
+
+/* ============================================================
+   TABLETS VERTICAL: pantallas de hasta 768px
+   ============================================================ */
+@media (max-width: 768px) {
+  /* --- ESTILOS GENERALES / GLOBALES --- */
+
+  /* --- ESTILOS INDIVIDUALES POR PHP / PAGINAS --- */
+  /* index.php */
+
+  /* inicio.php */
+
+  /* panel.php: cada bloque se apila y ocupa el ancho disponible. */
+  body.page-panel #panel {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    overflow-x: hidden;
+  }
+
+  body.page-panel .panel-wrap,
+  body.page-panel .panel-ui,
+  body.page-panel .panel-body {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  body.page-panel .panel-wrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  body.page-panel .panel-body {
+    display: flex !important;
+    flex-direction: column;
+    grid-template-columns: none !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+  }
+
+  body.page-panel .panel-widget,
+  body.page-panel .panel-cred,
+  body.page-panel .panel-domain-wide,
+  body.page-panel .inline-panel-056,
+  body.page-panel .inline-panel-066 {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    grid-column: auto !important;
+    overflow-wrap: anywhere;
+  }
+
+  body.page-panel .inline-panel-028,
+  body.page-panel .inline-panel-032,
+  body.page-panel .inline-panel-057,
+  body.page-panel .inline-panel-061 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  body.page-panel .inline-panel-030,
+  body.page-panel .inline-panel-033,
+  body.page-panel .inline-panel-034 {
+    font-size: 1.2rem;
+    overflow-wrap: anywhere;
+  }
+
+  body.page-panel .cred-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  body.page-panel .inline-panel-037,
+  body.page-panel .panel-welcome-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  body.page-panel .inline-panel-037 .plan-btn,
+  body.page-panel .panel-welcome-actions .plan-btn {
+    width: 100%;
+  }
+
+  body.page-panel .chat-window {
+    width: calc(100vw - 2rem);
+    height: min(70vh, 500px);
+    right: 1rem;
+    bottom: 5.5rem;
+  }
+
+  body.page-panel .chat-trigger {
+    width: 52px;
+    height: 52px;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  /* admin_panel.php: cabecera y controles apilados. */
+  body.page-admin-panel {
+    padding: 1rem !important;
+    overflow-x: hidden;
+  }
+
+  body.page-admin-panel .admin-shell {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body.page-admin-panel .admin-header {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 1.25rem !important;
+  }
+
+  body.page-admin-panel .admin-header h1 {
+    font-size: 2.5rem !important;
+    line-height: 1.05;
+  }
+
+  body.page-admin-panel .admin-header-actions {
+    width: 100%;
+    align-items: stretch !important;
+  }
+
+  body.page-admin-panel .admin-action-nav,
+  body.page-admin-panel .admin-action-nav a {
+    width: 100%;
+  }
+
+  body.page-admin-panel .admin-action-nav a {
+    text-align: center;
+  }
+
+  body.page-admin-panel .admin-view-tabs {
+    width: 100%;
+  }
+
+  body.page-admin-panel .admin-view-tabs a {
+    flex: 1;
+    padding-left: 0.7rem !important;
+    padding-right: 0.7rem !important;
+    text-align: center;
+  }
+
+  body.page-admin-panel .massive-actions-bar {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  body.page-admin-panel .massive-actions-bar > div:first-child {
+    border-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  body.page-admin-panel #status-masivo {
+    margin-left: 0 !important;
+  }
+
+  body.page-admin-panel .alerts-legend-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.page-admin-panel .table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Tablas administrativas: en movil cada registro se lee como una tarjeta. */
+  body.page-admin-panel .admin-alerts-scroll,
+  body.page-usuarios .users-list-scroll,
+  body.page-usuarios .users-invoices-scroll {
+    overflow: visible;
+  }
+
+  body.page-admin-panel .admin-alerts-scroll table,
+  body.page-admin-panel .admin-alerts-scroll thead,
+  body.page-admin-panel .admin-alerts-scroll tbody,
+  body.page-admin-panel .admin-alerts-scroll tr,
+  body.page-admin-panel .admin-alerts-scroll th,
+  body.page-admin-panel .admin-alerts-scroll td,
+  body.page-usuarios .users-list-scroll table,
+  body.page-usuarios .users-list-scroll thead,
+  body.page-usuarios .users-list-scroll tbody,
+  body.page-usuarios .users-list-scroll tr,
+  body.page-usuarios .users-list-scroll th,
+  body.page-usuarios .users-list-scroll td,
+  body.page-usuarios .users-invoices-scroll table,
+  body.page-usuarios .users-invoices-scroll thead,
+  body.page-usuarios .users-invoices-scroll tbody,
+  body.page-usuarios .users-invoices-scroll tfoot,
+  body.page-usuarios .users-invoices-scroll tr,
+  body.page-usuarios .users-invoices-scroll th,
+  body.page-usuarios .users-invoices-scroll td {
+    display: block;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  body.page-admin-panel .admin-alerts-scroll thead,
+  body.page-usuarios .users-list-scroll thead,
+  body.page-usuarios .users-invoices-scroll thead {
+    position: absolute;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  body.page-admin-panel .admin-alerts-scroll tbody tr,
+  body.page-usuarios .users-list-scroll tbody tr,
+  body.page-usuarios .users-invoices-scroll tbody tr,
+  body.page-usuarios .users-invoices-scroll tfoot tr {
+    margin-bottom: 1rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid rgba(200, 169, 110, 0.16);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  body.page-admin-panel .admin-alerts-scroll td,
+  body.page-usuarios .users-list-scroll td,
+  body.page-usuarios .users-invoices-scroll td {
+    padding: 0.6rem 0.25rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    white-space: normal;
+    text-align: left !important;
+    overflow-wrap: anywhere;
+  }
+
+  body.page-admin-panel .admin-alerts-scroll td:last-child,
+  body.page-usuarios .users-list-scroll td:last-child,
+  body.page-usuarios .users-invoices-scroll td:last-child {
+    border-bottom: 0;
+  }
+
+  body.page-admin-panel .admin-alerts-scroll td::before,
+  body.page-usuarios .users-list-scroll td::before,
+  body.page-usuarios .users-invoices-scroll td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--muted);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  body.page-admin-panel .admin-alerts-scroll td[data-label=""]::before,
+  body.page-usuarios .users-invoices-scroll td[data-label=""]::before {
+    display: none;
+  }
+
+  body.page-admin-panel .admin-alerts-scroll .mobile-table-empty {
+    padding: 1.5rem 0.5rem !important;
+    text-align: center !important;
+  }
+
+  body.page-usuarios .users-invoices-scroll .mobile-table-blank {
+    display: none !important;
+  }
+
+  /* usuarios.php: encabezados en columna y tablas en tarjetas. */
+  body.page-usuarios {
+    padding: 1rem !important;
+    overflow-x: hidden;
+  }
+
+  body.page-usuarios .users-shell {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body.page-usuarios .users-detail-header,
+  body.page-usuarios .users-list-header,
+  body.page-usuarios .users-finance-header {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 1rem;
+    margin-bottom: 1.5rem !important;
+  }
+
+  body.page-usuarios .users-detail-header h1,
+  body.page-usuarios .users-list-header h1 {
+    font-size: 2.6rem !important;
+    line-height: 1.05;
+  }
+
+  body.page-usuarios .users-header-actions,
+  body.page-usuarios .users-list-controls {
+    flex-direction: column;
+    align-items: stretch !important;
+    width: 100%;
+  }
+
+  body.page-usuarios .users-header-actions > *,
+  body.page-usuarios .users-list-controls > *,
+  body.page-usuarios .users-search {
+    width: 100% !important;
+    text-align: center;
+  }
+
+  body.page-usuarios .glass-panel {
+    padding: 1rem !important;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  body.page-usuarios .cred-val {
+    overflow-wrap: anywhere;
+  }
+
+  body.page-usuarios .glass-panel .justify-between {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  body.page-usuarios .users-table-panel {
+    overflow: hidden;
+  }
+}
+
+/* ============================================================
+   MOVILES: pantallas de hasta 480px
+   ============================================================ */
+@media (max-width: 480px) {
+  /* --- ESTILOS GENERALES / GLOBALES --- */
+
+  /* --- ESTILOS INDIVIDUALES POR PHP / PAGINAS --- */
+  /* index.php */
+
+  /* inicio.php */
+
+  /* panel.php */
+  body.page-panel #panel {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  body.page-panel .panel-body,
+  body.page-panel .panel-widget,
+  body.page-panel .panel-cred {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0 !important;
+    box-sizing: border-box;
+    padding: 0.9rem !important;
+  }
+
+  body.page-panel .panel-bar {
+    padding: 0.75rem !important;
+    min-width: 0;
+  }
+
+  body.page-panel .panel-bar span {
+    min-width: 0;
+    font-size: 0.68rem;
+    overflow-wrap: anywhere;
+  }
+
+  body.page-panel .chat-window {
+    width: calc(100% - 1.5rem);
+    max-width: 100%;
+    right: 0.75rem;
+  }
+
+  body.page-panel .inline-panel-047,
+  body.page-panel .inline-panel-049,
+  body.page-panel .inline-panel-052,
+  body.page-panel .inline-panel-079,
+  body.page-panel .inline-panel-057,
+  body.page-panel .inline-panel-061,
+  body.page-panel .inline-panel-062 {
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  body.page-panel .inline-panel-050,
+  body.page-panel .inline-panel-051,
+  body.page-panel .inline-panel-058,
+  body.page-panel .inline-panel-080 {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0 !important;
+  }
+
+  body.page-panel .swal2-popup {
+    width: calc(100% - 1.5rem) !important;
+    max-width: 100% !important;
+    margin: 0.75rem !important;
+    box-sizing: border-box;
+  }
+
+  /* admin_panel.php */
+  body.page-admin-panel *,
+  body.page-usuarios * {
+    box-sizing: border-box;
+  }
+
+  body.page-admin-panel .alerts-legend-summary,
+  body.page-admin-panel .alerts-legend-grid {
+    padding: 0.75rem !important;
+  }
+
+  body.page-admin-panel .admin-header,
+  body.page-admin-panel .massive-actions-bar,
+  body.page-admin-panel .alerts-legend,
+  body.page-admin-panel .table-container,
+  body.page-usuarios .users-detail-header,
+  body.page-usuarios .users-list-header,
+  body.page-usuarios .glass-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /* usuarios.php */
+  body.page-usuarios .users-detail-header h1,
+  body.page-usuarios .users-list-header h1 {
+    font-size: 2.15rem !important;
+  }
+
+  body.page-usuarios .users-finance-header h3 {
+    font-size: 1.35rem !important;
+    overflow-wrap: anywhere;
+  }
+}
