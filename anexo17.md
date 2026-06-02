@@ -553,35 +553,58 @@ const observer = new IntersectionObserver((entries) => {
 ```
 * **Comentario técnico:** Implementa animaciones fluidas mediante la API `IntersectionObserver` de JavaScript, evitando ralentizar el renderizado inicial y mejorando de forma notable la experiencia estética de usuario (Premium UX).
 
-### 8.4 Formulario Presupuestario Interactivo (`presupuestos.php`)
-Asistente (wizard) conversacional interactivo para solicitar presupuestos mediante fetch asíncrono.
+```php
+// Lógica de mapeo de niveles comerciales
+$plan_actual = $_SESSION['plan'] ?? 'Ninguno';
+$jerarquia = ['Ninguno' => 0, 'BÁSICO' => 1, 'PROFESIONAL' => 2, 'ENTERPRISE' => 3];
+$nivel_actual = $jerarquia[$plan_actual] ?? 0;
 
-```javascript
-async function sendToBackend(payload) {
-  const response = await fetch('send_chat.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-  return response.json();
+// Renderizado de tarjetas de planes con protección de downgrade
+foreach ($planes as $nombre => $specs) {
+    $disabled = ($jerarquia[$nombre] < $nivel_actual) ? 'disabled-card' : '';
+    echo '<div class="plan-card '.$disabled.'">';
+    // ... renderizado de especificaciones técnicas ...
+    echo '</div>';
 }
 ```
-* **Comentario técnico:** Modela una estructura interactiva simulando respuestas automatizadas por Inteligencia Artificial. La validación del estado del proyecto se verifica constantemente desde la base de datos en el backend para prevenir envíos duplicados de formularios.
+* **Comentario técnico:** L ógica de Negocio (Protección de Downgrade): El backend no solo muestra los planes, sino que compara el plan_contratado actual de la sesión con los niveles jerárquicos del catálogo. Aplica dinámicamente la clase CSS disabled-card a aquellos planes inferiores al actual, impidiendo que el usuario pueda intentar un downgrade desde el frontend sin pasar por el controlador de modificaciones comerciales, que es quien valida la política de bajas.
 
-### 8.5 Vitrina de Proyectos de Inquilinos (`galeria.php`)
-Galería interactiva pública que previsualiza las webs alojadas en caliente en un iframe simulando un monitor.
+Seguridad en el Enlace de Contratación: Los botones de "Contratar" inyectan un parámetro GET ?plan=NOMBRE hacia checkout.php. El controlador de checkout.php no confía en este parámetro a ciegas; lo utiliza únicamente como referencia de inicio de flujo, volviendo a calcular internamente el precio base y los impuestos en el servidor para evitar manipulaciones de precio en el lado del cliente (Client-Side Price Manipulation).
+
+Persistencia Visual: Utiliza una estructura de rejilla (Grid) optimizada para ser legible tanto en dispositivos móviles (apilando tarjetas) como en escritorio (comparativa horizontal), garantizando que los datos técnicos (CPU/RAM/Almacenamiento) se mantengan alineados y legibles para el cliente en todo momento.
+
+### 8.4 Formulario Presupuestario Interactivo (`presupuestos.php`)
+Asistente (wizard) conversacional que guía al usuario en el diseño web.
 
 ```javascript
-monitorSlides.addEventListener('load', (e) => {
-  if (e.target.tagName === 'IFRAME') {
-    try {
-      const iframeWin = e.target.contentWindow;
-      iframeWin.addEventListener('click', (ev) => { ev.preventDefault(); });
-    } catch(err) {}
-  }
+// Captura de eventos asíncronos para el asistente
+document.querySelectorAll('input[name="showcase_q"]').forEach(el => {
+    el.addEventListener('change', (e) => {
+        cuestionario.showcase = e.target.value;
+        renderizarSiguientePaso(); // Actualiza el DOM asíncronamente
+    });
 });
 ```
-* **Comentario técnico:** Captura las interacciones en el iframe del monitor y bloquea la navegación de enlaces externos. Implementa controles de captura de errores de políticas CORS ante dominios ajenos.
+
+**Comentario técnico:**
+
+* **UX Conversacional:** La implementación mediante wizard (paso a paso) reduce la carga cognitiva del usuario al evitar formularios largos. La actualización del DOM se realiza en tiempo real sin recargas de página, mejorando la retención de clientes.
+* **Persistencia de estado:** Los datos se van acumulando en una variable `cuestionario` local en el navegador, minimizando las llamadas al servidor hasta que el usuario finaliza el flujo, lo cual reduce el tráfico innecesario y el consumo de recursos de base de datos durante la fase de exploración del cliente.
+
+### 8.5 Vitrina de Proyectos de Inquilinos (`galeria.php`)
+Muestra previsualizaciones de sitios web creados por la IA, encapsuladas en contenedores seguros.
+
+```javascript
+// Prevención de navegación cruzada en iframes
+const iframes = document.querySelectorAll('iframe');
+iframes.forEach(iframe => {
+    iframe.contentWindow.addEventListener('click', (e) => {
+        e.preventDefault(); // Bloquea la navegación fuera del monitor
+    });
+});
+```
+
+**Comentario técnico:** Utiliza la técnica de sandboxing visual. Al encapsular los proyectos en `<iframe>` y capturar el evento de clic en el `contentWindow`, se evita que el usuario salga accidentalmente de la plataforma al interactuar con las previsualizaciones. Esto protege la navegación dentro del ecosistema VinoMadrid y mejora la estabilidad de la experiencia de usuario.
 
 ### 8.6 Recurso no Encontrado (`error404.html`)
 Vista estática de respuesta para enrutar anomalías HTTP 404 del servidor web Apache de forma elegante.
