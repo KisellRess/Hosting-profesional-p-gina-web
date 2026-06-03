@@ -1,8 +1,8 @@
 # ANEXO 17: Código Fuente Comentado - Documentación Completa del Sistema VinoMadrid Hosting
 
-**Nivel académico:** Grado Superior en Sistemas Microinformáticos y Redes (SMR)  
+**Nivel académico:** Grado Medio en Sistemas Microinformáticos y Redes (SMR)  
 **Proyecto:** Trabajo Fin de Grado (TFG)  
-**Alcance:** Auditoría y análisis completo de la suite de desarrollo PHP, JavaScript (AJAX/SSE), Maquetación CSS y scripts de automatización.
+**Alcance:** Auditoría y análisis completo de la suite de desarrollo PHP, JavaScript (AJAX/SSE) y Maquetación CSS
 
 ---
 
