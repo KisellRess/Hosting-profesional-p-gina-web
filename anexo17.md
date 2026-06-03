@@ -444,8 +444,8 @@ $output = shell_exec($comando);
 ```
 * **Comentario técnico:** El uso estricto de la función nativa `escapeshellarg()` neutraliza los ataques de inyección de comandos del sistema operativo (OS Command Injection), saneando y envolviendo los parámetros dentro de comillas seguras antes de derivarlos al shell de Linux.
 
-### 6.2 Almacenamiento Directo y Trigger IA (`send_chat.php`)
-Inserta mensajes de soporte en MySQL y gatilla autorrespuestas de IA basadas en triggers comerciales.
+### 6.2 Almacenamiento Directo y Trigger (`send_chat.php`)
+Inserta mensajes de soporte en MySQL y gatilla autorrespuestas basadas en triggers comerciales.
 
 ```php
 $stmt = $conexion->prepare("INSERT INTO mensajes_chat (user_id, emisor, mensaje, leido) VALUES (?, ?, ?, 0)");
